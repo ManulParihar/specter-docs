@@ -1,4 +1,6 @@
 const SDK_URLS = [
+  'https://esm.sh/@specterpq/sdk@0.1.0?bundle',
+  'https://esm.sh/@specterpq/sdk@0.1.0',
   'https://cdn.jsdelivr.net/npm/@specterpq/sdk@0.1.0/dist/index.js',
   'https://unpkg.com/@specterpq/sdk@0.1.0/dist/index.js',
 ];

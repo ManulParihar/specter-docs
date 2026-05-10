@@ -35,16 +35,14 @@ Use this interactive playground to test the core stealth flow in your browser.
 - Scan announcements and verify matches
 - Run editable SDK snippets in the code editor
 
-<iframe
-  src="/playground/index.html"
-  title="SPECTER SDK Playground"
-  width="100%"
-  height="1200"
-  style={{ border: '1px solid #22262d', borderRadius: '12px', background: '#0a0c0f' }}
-/>
+<Note>
+The interactive playground below is rendered directly on this Mintlify page. It no longer depends on `/playground/index.html`, which Mintlify does not publish reliably in production.
+</Note>
+
+<div id="specter-sdk-playground-root" />
 
 <Warning>
-If the embedded frame is blocked in your browser, use **Open playground in a new tab**.
+If the playground does not initialize, open your browser console and check whether the SDK script or stylesheet request failed.
 </Warning>
 
 ---

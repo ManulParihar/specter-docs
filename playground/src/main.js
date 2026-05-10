@@ -16,10 +16,27 @@ const handlers = {
   clearConsole,
 };
 
-installTemporaryGlobals();
-wireUiControls(handlers);
-wireEditorKeyboard();
-bootstrap();
+export async function initPlayground() {
+  const mount = document.getElementById(PLAYGROUND_MOUNT_ID);
+  if (!mount || mount.dataset.ready === 'true') return;
+
+  mount.dataset.ready = 'true';
+
+  const shadowRoot = mount.attachShadow({ mode: 'open' });
+  const style = document.createElement('style');
+  style.textContent = await loadScopedStyles();
+
+  const shell = document.createElement('div');
+  shell.innerHTML = PLAYGROUND_TEMPLATE;
+
+  shadowRoot.append(style, shell);
+  setDomRoot(shadowRoot);
+
+  installTemporaryGlobals();
+  wireUiControls(handlers);
+  wireEditorKeyboard();
+  await bootstrap();
+}
 
 async function bootstrap() {
   let sdk;
@@ -73,4 +90,17 @@ function installRealGlobals() {
     doScanAnnouncement: scanAnnouncement,
     runBatchScan,
   });
+}
+
+async function loadScopedStyles() {
+  const response = await fetch('/playground/src/styles/main.css');
+  if (!response.ok) {
+    throw new Error(`Failed to load playground styles: ${response.status}`);
+  }
+  const rawCss = await response.text();
+
+  return rawCss
+    .replace(/:root/g, ':host')
+    .replace(/body::before/g, ':host::before')
+    .replace(/body/g, ':host');
 }
