@@ -1,8 +1,11 @@
 import { copyEditorCode, clearConsole, loadSnippet, runCode, wireEditorKeyboard } from './editor.js';
 import { buildMetaAddress, createPayment, generateKeys, runBatchScan, scanAnnouncement } from './guided-flow.js';
 import { loadSpecterSdk } from './sdk-loader.js';
-import { setSdkModule } from './state.js';
+import { setDomRoot, setSdkModule } from './state.js';
+import { PLAYGROUND_TEMPLATE } from './template.js';
 import { byId, markSdkReady, setInitError, switchTab, toggleStep, copyField, wireUiControls } from './ui.js';
+
+const PLAYGROUND_MOUNT_ID = 'specter-sdk-playground-root';
 
 const handlers = {
   generateKeys,
@@ -15,6 +18,12 @@ const handlers = {
   runCode,
   clearConsole,
 };
+
+if (typeof document !== 'undefined') {
+  initPlayground().catch((error) => {
+    console.error('Failed to initialize playground page', error);
+  });
+}
 
 export async function initPlayground() {
   const mount = document.getElementById(PLAYGROUND_MOUNT_ID);
@@ -94,9 +103,6 @@ function installRealGlobals() {
 
 async function loadScopedStyles() {
   const response = await fetch('/playground/src/styles/main.css');
-  if (!response.ok) {
-    throw new Error(`Failed to load playground styles: ${response.status}`);
-  }
   const rawCss = await response.text();
 
   return rawCss

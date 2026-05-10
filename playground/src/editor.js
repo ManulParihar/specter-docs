@@ -32,7 +32,7 @@ export async function runCode() {
   const body = byId('console-body');
   body.querySelector('.console-empty')?.remove();
   if (body.children.length > 0) {
-    const separator = document.createElement('div');
+    const separator = appState.ownerDocument.createElement('div');
     separator.className = 'console-separator';
     body.appendChild(separator);
   }
@@ -93,7 +93,7 @@ function appendConsole(message, type = 'log') {
   body.querySelector('.console-empty')?.remove();
 
   const prefixMap = { log: '>', info: 'i', warn: '!', err: 'x', result: '<', system: '·' };
-  const line = document.createElement('div');
+  const line = appState.ownerDocument.createElement('div');
   line.className = `console-line ${type}`;
   line.innerHTML = `<span class="prefix">${prefixMap[type] || '>'}</span><span class="msg">${escapeHtml(message)}</span>`;
   body.appendChild(line);

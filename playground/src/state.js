@@ -4,7 +4,14 @@ export const appState = {
   recipientKeys: null,
   metaHex: null,
   paymentResult: null,
+  root: typeof document === 'undefined' ? null : document,
+  ownerDocument: typeof document === 'undefined' ? null : document,
 };
+
+export function setDomRoot(root) {
+  appState.root = root;
+  appState.ownerDocument = root?.ownerDocument || document;
+}
 
 export function setSdkModule(sdk) {
   appState.sdk = sdk;

@@ -7,8 +7,8 @@ description: "Use the SPECTER SDK playground directly in the docs."
   <Card title="Open the app" icon="rocket" href="https://specterpq.com/">
     Full UI experience in your browser.
   </Card>
-  <Card title="Open playground in a new tab" icon="rocket" href="/playground/index.html">
-    Launch the standalone static page.
+  <Card title="Open playground in a new tab" icon="rocket" href="/explore/playground">
+    Open this Mintlify-native playground route directly.
   </Card>
   <Card title="SDK package" icon="code" href="https://www.npmjs.com/package/@specterpq/sdk">
     Review package details and releases.
@@ -39,10 +39,23 @@ Use this interactive playground to test the core stealth flow in your browser.
 The interactive playground below is rendered directly on this Mintlify page. It no longer depends on `/playground/index.html`, which Mintlify does not publish reliably in production.
 </Note>
 
+<script
+  type="importmap"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      imports: {
+        zod: "https://esm.sh/zod@3.24.1",
+      },
+    }),
+  }}
+/>
+
 <div id="specter-sdk-playground-root" />
 
+<script type="module" src="/playground/src/main.js"></script>
+
 <Warning>
-If the playground does not initialize, open your browser console and check whether the SDK script or stylesheet request failed.
+If the playground does not initialize, hard-refresh once so the page re-runs the module and import map together.
 </Warning>
 
 ---

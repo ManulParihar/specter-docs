@@ -1,10 +1,16 @@
+import { appState } from './state.js';
+
+function queryRoot() {
+  return appState.root || document;
+}
+
 export function byId(id) {
-  return document.getElementById(id);
+  return queryRoot().querySelector(`#${id}`);
 }
 
 export function switchTab(tab) {
-  document.querySelectorAll('.tab-panel').forEach((panel) => panel.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach((button) => button.classList.remove('active'));
+  queryRoot().querySelectorAll('.tab-panel').forEach((panel) => panel.classList.remove('active'));
+  queryRoot().querySelectorAll('.tab-btn').forEach((button) => button.classList.remove('active'));
 
   byId(`panel-${tab}`)?.classList.add('active');
   byId(`tab-${tab}`)?.classList.add('active');
@@ -23,7 +29,7 @@ export function toggleStep(stepNumber) {
 }
 
 export function openStep(stepNumber) {
-  document.querySelectorAll('.step').forEach((step) => step.classList.remove('active'));
+  queryRoot().querySelectorAll('.step').forEach((step) => step.classList.remove('active'));
   byId(`step-${stepNumber}`)?.classList.add('active');
 }
 
@@ -81,7 +87,7 @@ export function markSdkReady() {
   byId('init-status').textContent = 'WASM module ready — all crypto runs locally';
   byId('init-badge').textContent = 'READY';
   byId('init-bar').classList.add('ready');
-  document.querySelector('.init-icon').textContent = '◉';
+  queryRoot().querySelector('.init-icon').textContent = '◉';
   byId('fn-init').classList.add('done');
 }
 
@@ -89,11 +95,11 @@ export function wireUiControls(handlers) {
   byId('tab-guided')?.addEventListener('click', () => switchTab('guided'));
   byId('tab-editor')?.addEventListener('click', () => switchTab('editor'));
 
-  document.querySelectorAll('[data-step]').forEach((element) => {
+  queryRoot().querySelectorAll('[data-step]').forEach((element) => {
     element.addEventListener('click', () => toggleStep(element.dataset.step));
   });
 
-  document.querySelectorAll('[data-copy-field]').forEach((element) => {
+  queryRoot().querySelectorAll('[data-copy-field]').forEach((element) => {
     element.addEventListener('click', () => copyField(element.dataset.copyField));
   });
 
